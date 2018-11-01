@@ -1,14 +1,9 @@
 from django.db import models
 
 from core.models import TimestampedModel, IntegerRangeField
+from companies.models import Company
 # Create your models here.
 
-
-# Rating - must be between 1 - 5
-# Title - no more than 64 chars
-# Summary - no more than 10k chars
-# IP Address - IP of the review submitter
-# Submission date - the date the review was submitted
 
 class Rating(TimestampedModel):
 
@@ -19,10 +14,9 @@ class Rating(TimestampedModel):
 	title = models.CharField(db_index=True, max_length=64)
 	summary = models.TextField(max_length=10000)
 	ip_address = models.GenericIPAddressField()
-	slug = models.SlugField(db_index=True, max_length=255, unique=True)
-	# company = models.ForeignKey(
-	# 	'authentication.User', on_delete=models.CASCADE, related_name='rating'
-	# )
+	company = models.ForeignKey(
+		'companies.Company', on_delete=models.CASCADE, related_name='rating'
+	)
 
 
 	def __str__(self):

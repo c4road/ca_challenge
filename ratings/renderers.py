@@ -1,7 +1,7 @@
-from core.renderers import ConduitJSONRenderer
+from core.renderers import AppJSONRenderer
 
 
-class RatingJSONRenderer(ConduitJSONRenderer):
+class RatingJSONRenderer(AppJSONRenderer):
 
 	object_label = 'rating'
 	# object_label_plural = 'articles' ### This was changed when configuring pagination in core renderers

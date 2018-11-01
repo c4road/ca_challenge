@@ -1,76 +1,16 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 
-# from conduit.apps.profiles.serializers import ProfileSerializer
-
 from .models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
-
-	# Passwords must be at least 8 characters, but no more than 128 
-	# characters. These values are the default provided by Django. We could
-	# change them, but that would create extra work while introducing no real
-	# benefit, so lets just stick with the defaults.
-
-
-	password = serializers.CharField(
-		max_length = 128,
-		min_length = 8,
-		write_only = True
-	)
-
-	# profile = ProfileSerializer(write_only=True)
-
-	bio = serializers.CharField(source='profile.bio', read_only=True)
-	image = serializers.CharField(source='profile.image', read_only=True)
 
 
 	class Meta:
 
 		model = User
-		fields = ('email', 'username', 'password', 'token', 'profile', 'bio', 'image')
-
-
-		read_only_fields = ('token',)
-
-	def update(self, instance, validated_data):
-
-
-		# Passwords should not be handled with `setattr`, unlike other fields.
-		# Django provides a function that handles hashing and
-		# salting passwords. That means
-		# we need to remove the password field from the
-		# `validated_data` dictionary before iterating over it.
-
-		password = validated_data.pop('password', None)
-
-		profile_data = validated_data.pop('profile', {})
-
-		for (key, value) in validated_data.items():
-			# For the keys remaining in `validated_data`, we will set them on
-			# the current `User` instance one at a time.
-
-			setattr(instance, key, value)
-
-		if password is not None:
-			# `.set_password()`  handles all
-			# of the security stuff that we shouldn't be concerned with.
-
-			instance.set_password(password)
-
-		# After everything has been updated we must explicitly save
-		# the model. It's worth pointing out that `.set_password()` does not
-		# save the model.
-		
-		instance.save()
-
-		for (key, value) in profile_data.items():
-
-			setattr(instance.profile, key, value)
-
-		instance.profile.save()
-
-		return instance
+		fields = ('username', 'email', 'id')
 
 
 class LoginSerializer(serializers.Serializer):
