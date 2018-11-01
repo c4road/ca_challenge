@@ -1,68 +1,77 @@
 from rest_framework import generics, status
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (IsAuthenticated, IsAdminUser,)
+from rest_framework.response import Response
+
 from .serializers import RatingSerializer
 from .models import Rating
 from .renderers import RatingJSONRenderer
+from .permissions import IsOwner
 
 from authentication.models import User
 from companies.models import Company
 
 # Create your views here.
 
+class RatingAdminAPIView(generics.ListAPIView):
+	queryset = Rating.objects.all()
+	permission_classes = (IsAdminUser, IsOwner,)
+	serializer_class = RatingSerializer
+
+
 
 class RatingRetrieveAPIView(generics.RetrieveAPIView):
     lookup_field = 'id'
+    lookup_url_kwarg = 'rating_id'
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
-
-
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object() # here the object is retrieved
-        serializer = self.get_serializer(instance)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    permission_classes = (IsAuthenticated, IsOwner,)
 
 
 
 class RatingListCreateAPIView(generics.ListCreateAPIView):
  
 	lookup_field = 'reviewer'
-	lookup_url_kwarg = 'reviewer_id'
+	lookup_url_kwarg = 'company_id'
 	permission_classes = (IsAuthenticated,)
-	queryset = Rating.objects.select_related(
-		'reviewer')
+	queryset = Rating.objects.select_related('reviewer')
 
 	renderer_classes = (RatingJSONRenderer,)
 	serializer_class = RatingSerializer
 
 
-	def filter_queryset(self, queryset):
-		# The built-in list function calls `filter_queryset`. Since we only
-		# want comments for a specific article, this is a good place to do
-		# that filtering.
-
-		filters = {self.lookup_field: self.kwargs[self.lookup_url_kwarg]}
+	def filter_queryset(self,queryset):
+		
+		filters = {'reviewer': self.request.user.id}
 
 		return queryset.filter(**filters)
 
 
-	def create(self, request, reviewer_id=None):
+	def create(self, request, company_id=None):
 
 		data = request.data.get('rating', {})
 		context = {'reviewer': request.user}
+		x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+		if x_forwarded_for:
+
+		    ip = x_forwarded_for.split(',')[0]
+		    context['ip_address'] = ip
+		else:
+		    ip = request.META.get('REMOTE_ADDR')
+		    context['ip_address'] = ip
 
 		try: 
-			context['company'] = Company.objects.get(id=self.kwargs['company_id'])
+			context['company'] = Company.objects.get(id=company_id)
 			
 		except Company.DoesNotExist:
 			raise NotFound('A company with that id does not exists')
 
-
-		
 		serializer = self.serializer_class(data=data, context=context)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
 
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
