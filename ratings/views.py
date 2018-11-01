@@ -1,5 +1,6 @@
 from rest_framework import generics, status
-from rest_
+from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAuthenticated
 from .serializers import RatingSerializer
 from .models import Rating
 from .renderers import RatingJSONRenderer
@@ -21,7 +22,6 @@ class RatingRetrieveAPIView(generics.RetrieveAPIView):
         serializer = self.get_serializer(instance)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 
@@ -50,13 +50,7 @@ class RatingListCreateAPIView(generics.ListCreateAPIView):
 	def create(self, request, reviewer_id=None):
 
 		data = request.data.get('rating', {})
-		context = {'author': request.user.profile}
-
-		try: 
-			context['article'] = User.objects.get(id=reviewer_id)
-			
-		except User.DoesNotExist:
-			raise NotFound('A user with this id does not exists')
+		context = {'reviewer': request.user}
 
 		try: 
 			context['company'] = Company.objects.get(id=self.kwargs['company_id'])

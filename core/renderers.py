@@ -13,7 +13,7 @@ class AppJSONRenderer(JSONRenderer):
 
 		if isinstance(data, ReturnList):
 			_data = json.loads(
-				super(ConduitJSONRenderer, self).render(data).decode('utf-8')
+				super(AppJSONRenderer, self).render(data).decode('utf-8')
 			)
 
 			return json.dumps({
@@ -26,8 +26,7 @@ class AppJSONRenderer(JSONRenderer):
 
 			if errors is not None:
 
-
-				return super(ConduitJSONRenderer, self).render(data)
+				return super(AppJSONRenderer, self).render(data)
 
 			return json.dumps({
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Rating
-from .relations import TagRelatedField
+
 
 from authentication.serializers import UserSerializer
 from companies.serializers import CompanySerializer

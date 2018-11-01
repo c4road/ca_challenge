@@ -12,7 +12,7 @@ from .views import (
 
 urlpatterns = [
 	
-	re_path(r'^ratings/(?P<reviewer_id>[\d]+)/(?P<comment_pk>[\d]+)$', RatingListCreateAPIView.as_view(), name='verificate'),
+	re_path(r'^ratings/$', RatingListCreateAPIView.as_view(), name='verificate'),
 
 ]
 
