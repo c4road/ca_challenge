@@ -1,15 +1,10 @@
-from django.urls import path
+from django.urls import path, include
+from django.conf.urls import url
+from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from .views import CompanyViewSet
 
-from .views import (
+router = DefaultRouter()
+router.register(r'company', CompanyViewSet, base_name='company')
 
-	CompanyCreateView,
-
-)
-
-
-urlpatterns = [
-	
-	path(r'companies/create/', CompanyCreateView.as_view(), name='create'),
-
-]
+urlpatterns = [url(r'^', include((router.urls,'company'))),]

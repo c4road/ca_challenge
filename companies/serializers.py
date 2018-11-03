@@ -9,4 +9,4 @@ class CompanySerializer(serializers.ModelSerializer):
 	class Meta:
 
 		model = Company
-		fields = ('name', 'email', 'address')
+		fields = ('__all__')

@@ -1,18 +1,21 @@
 from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework import generics, status, viewsets
 from rest_framework.permissions import (
 
-	AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+	AllowAny, 
+	IsAuthenticated, 
+	IsAuthenticatedOrReadOnly,
 )
 from rest_framework.response import Response
 from .serializers import CompanySerializer
 from .renderers import CompaniesJSONRenderer
+from .models import Company
 # Create your views here.
 
 
-class CompanyCreateView(generics.CreateAPIView):
-    serializer_class = CompanySerializer
-    permission_classes = (AllowAny,)
-    renderer_classes = (CompaniesJSONRenderer,)
+class CompanyViewSet(viewsets.ModelViewSet):
 
-
+	serializer_class = CompanySerializer
+	permission_classes = (AllowAny,)
+	queryset = Company.objects.all()
+	renderer_classes = (CompaniesJSONRenderer,)

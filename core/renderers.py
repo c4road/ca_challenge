@@ -15,7 +15,6 @@ class AppJSONRenderer(JSONRenderer):
 			_data = json.loads(
 				super(AppJSONRenderer, self).render(data).decode('utf-8')
 			)
-
 			return json.dumps({
 
 				self.object_label_plural: _data
@@ -23,11 +22,9 @@ class AppJSONRenderer(JSONRenderer):
 		else:
 
 			errors = data.get('errors', None)
-
 			if errors is not None:
 
 				return super(AppJSONRenderer, self).render(data)
-
 			return json.dumps({
 
 				self.object_label:data
