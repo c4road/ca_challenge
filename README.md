@@ -96,18 +96,17 @@ coverage report
 
 1) In this challenge I used JSON Web Token instead of DRF Token because nowadays it is considered an standard. Here you can see an answer that explain the difference between eachetter. https://goo.gl/t9ayqA
 
-3) The architecture is based on the 12 factor app statement and the style guide and reference book Two Scoop of DJango 2.
+3) The architecture is based the style guide and reference book Two Scoop of DJango 2.
 
 2) Ip address is taken for the request object but It could be also fetched by the frontend.
 
 4) Core module is used basically to implement DRY
 
-5) Reviewers is a custom user module that provides boths authentication and review metadata. In broader cimcurstances is useful separating those concerns and implement some third party package for authentication as  
+5) Reviewers is a custom user module that provides boths authentication and review metadata. In broader cimcurstances is useful separating those concerns and implement some third party package for authentication like djoser https://goo.gl/q8rMHy
 
-
+6) 
 
 
 ## API documentation
 
-To take a look at the api endpoints you have to import the ca_challenge.postman_collection.json into Postman 
-Also you can visit http://localhost:8000/swagger/ and http://localhost:8000/docs/
+To take a look at the api endpoints you have to import the ca_challenge.postman_collection.json using Postman, activate the enviroment, also you can visit http://localhost:8000/swagger/ and http://localhost:8000/docs/ for further information.
