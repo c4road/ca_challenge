@@ -13,20 +13,12 @@ from companies.models import Company
 
 # Create your views here.
 
-class ReviewListCreateAPIView(generics.ListCreateAPIView):
+class CompanyReviewCreateAPIView(generics.CreateAPIView):
  
-	lookup_field = 'reviewer'
 	lookup_url_kwarg = 'company_id'
 	permission_classes = (IsAuthenticated,)
-	queryset = Review.objects.select_related('reviewer')
 	renderer_classes = (ReviewJSONRenderer,)
 	serializer_class = ReviewSerializer
-
-
-	def filter_queryset(self,queryset):
-		
-		filters = {'reviewer': self.request.user.id}
-		return queryset.filter(**filters)
 
 
 	def create(self, request, company_id=None):
@@ -49,11 +41,28 @@ class ReviewListCreateAPIView(generics.ListCreateAPIView):
 		except Company.DoesNotExist:
 
 			raise NotFound('A company with that id does not exists')
+
 		serializer = self.serializer_class(data=data, context=context)
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
 
 		return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class ReviewOwnerListAPIView(generics.ListAPIView):
+
+	queryset = Review.objects.all()
+	permission_classes = (IsAuthenticated, IsOwner,)
+	serializer_class = ReviewSerializer
+	renderer_classes = (ReviewJSONRenderer,)
+
+	def filter_queryset(self,queryset):
+		
+		filters = {'reviewer': self.request.user.id}
+
+		return queryset.filter(**filters)
+
+
 
 
 class ReviewAdminAPIView(generics.ListAPIView):
@@ -68,7 +77,7 @@ class ReviewAdminAPIView(generics.ListAPIView):
 class ReviewRetrieveAPIView(generics.RetrieveAPIView):
 
     lookup_field = 'id'
-    lookup_url_kwarg = 'rating_id'
+    lookup_url_kwarg = 'review_id'
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     renderer_classes = (ReviewJSONRenderer,)

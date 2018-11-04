@@ -20,6 +20,7 @@ class AuthenticationAPITests(TestCase):
 		response = self.client.post(self.register_url, data=data, content_type="application/json")
 		reviewer = Reviewer.objects.get(id=response.json()["reviewer"]['id'])
 		review_serializer = RegistrationSerializer(reviewer)
+		self.assertEqual(review_serializer.data, response.json()['reviewer'])
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 	def test_login(self):
@@ -28,6 +29,7 @@ class AuthenticationAPITests(TestCase):
 		register_response = self.client.post(self.register_url, data=data, content_type="application/json")
 		data = json.dumps({"user":{"email":"user_4@gmail.com", "password":"12345678"}})
 		login_response = self.client.post(self.login_url, data=data, content_type="application/json")
+
 		self.assertEqual(login_response.status_code, status.HTTP_200_OK)
 
 

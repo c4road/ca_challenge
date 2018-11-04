@@ -4,7 +4,7 @@ class IsOwner(permissions.BasePermission):
 	""" 
 	Check if the user is the instance owner 
 	"""
-	message = 'Not allowed to see this rating'
+	message = 'Not allowed to see this review'
 	def has_object_permission(self, request, view, obj):
 
 		return obj.reviewer == request.user
