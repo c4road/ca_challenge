@@ -102,11 +102,13 @@ coverage report
 
 4) Core module is used basically to implement DRY
 
-5) Reviewers is a custom user module that provides boths authentication and review metadata. In broader cimcurstances is useful separating those concerns and implement some third party package for authentication like djoser https://goo.gl/q8rMHy
+5) Reviewers is a custom user module that provides both authentication and review metadata. In broader circumstances is useful separating those concerns and implement some third party package for authentication like djoser https://goo.gl/q8rMHy
 
-6) 
+6) I assumed that when reviewing the user is in a company detail view, and thats why I take the company id from url kwargs when creating a review. Considering default viewset create endpoint doesnt use url kwargs, thats why i used generic CreateAPIView instead of Viewset. Nevertheless, I use viewsets in companies module. 
+
+7) I inherited from three types of django rest framework views to demonstrate a broader skillset
 
 
 ## API documentation
 
-To take a look at the api endpoints you have to import the ca_challenge.postman_collection.json using Postman, activate the enviroment, also you can visit http://localhost:8000/swagger/ and http://localhost:8000/docs/ for further information.
+To take a look at the api endpoints you have to import the ca_challenge.postman_collection.json using Postman, also you can visit http://localhost:8000/swagger/ and http://localhost:8000/docs/ for further information.
