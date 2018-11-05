@@ -415,7 +415,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/reviews/4",
+						"url": "{{apiUrl}}/reviews/14",
 						"method": "DELETE",
 						"header": [
 							{
