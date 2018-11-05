@@ -9,7 +9,7 @@ from .views import (
 
 urlpatterns = [
 	
-    url(r'users/?$', RegistrationAPIView.as_view(),name='register'),
-    url(r'users/login/?$', LoginAPIView.as_view(),name='login'),
+    url(r'reviewers/?$', RegistrationAPIView.as_view(),name='register'),
+    url(r'reviewers/login/?$', LoginAPIView.as_view(),name='login'),
    
 ]

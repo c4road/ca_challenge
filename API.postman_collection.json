@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "ca_challenge",
-		"_postman_id": "cbe26548-5383-39a2-1efb-50ecb1ac649e",
+		"_postman_id": "8942c071-38f1-187c-53d3-d6149fec2309",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -38,7 +38,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/users",
+						"url": "{{apiUrl}}/reviewers",
 						"method": "POST",
 						"header": [
 							{
@@ -56,7 +56,7 @@
 							"mode": "raw",
 							"raw": "{\"user\":{\"email\":\"user_4@gmail.com\", \"password\":\"12345678\", \"username\":\"user_4\"}}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -85,7 +85,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/users/login",
+						"url": "{{apiUrl}}/reviewers/login",
 						"method": "POST",
 						"header": [
 							{
@@ -103,7 +103,7 @@
 							"mode": "raw",
 							"raw": "{\"user\":{\"email\":\"user_2@gmail.com\", \"password\":\"12345678\"}}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				}
@@ -147,7 +147,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/company/1/create-review/",
+						"url": "{{apiUrl}}/company/1/reviews/",
 						"method": "POST",
 						"header": [
 							{
@@ -176,7 +176,7 @@
 							"mode": "raw",
 							"raw": "{\"review\":{\"rating\":3, \"title\":\"New rating\", \"summary\":\"Some summary\"}}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -214,7 +214,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/my-reviews/",
+						"url": "{{apiUrl}}/reviews/",
 						"method": "GET",
 						"header": [
 							{
@@ -243,7 +243,7 @@
 							"mode": "raw",
 							"raw": "{\"rating\":{\"rating\":1, \"title\":\"New rating\", \"summary\":\"Some summary\", \"ip_address\":\"0.0.0.0\"}}\n\n"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -281,7 +281,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/review/3",
+						"url": "{{apiUrl}}/reviews/3",
 						"method": "GET",
 						"header": [
 							{
@@ -310,7 +310,7 @@
 							"mode": "raw",
 							"raw": "{\"rating\":{\"rating\":1, \"title\":\"New rating\", \"summary\":\"Some summary\", \"ip_address\":\"0.0.0.0\"}}\n\n"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -348,7 +348,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/review/list/",
+						"url": "{{apiUrl}}/admin/reviews/",
 						"method": "GET",
 						"header": [
 							{
@@ -376,6 +376,207 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\"rating\":{\"rating\":1, \"title\":\"New rating\", \"summary\":\"Some summary\", \"ip_address\":\"0.0.0.0\"}}\n\n"
+						},
+						"description": null
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var responseJSON = JSON.parse(responseBody);",
+									"",
+									"tests['Response contains \"article\" property'] = responseJSON.hasOwnProperty('article');",
+									"",
+									"var article = responseJSON.article || {};",
+									"",
+									"tests['Article has \"title\" property'] = article.hasOwnProperty('title');",
+									"tests['Article has \"slug\" property'] = article.hasOwnProperty('slug');",
+									"tests['Article has \"body\" property'] = article.hasOwnProperty('body');",
+									"tests['Article has \"createdAt\" property'] = article.hasOwnProperty('createdAt');",
+									"tests['Article\\'s \"createdAt\" property is an ISO 8601 timestamp'] = new Date(article.createdAt).toISOString() === article.createdAt;",
+									"tests['Article has \"updatedAt\" property'] = article.hasOwnProperty('updatedAt');",
+									"tests['Article\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = new Date(article.updatedAt).toISOString() === article.updatedAt;",
+									"tests['Article has \"description\" property'] = article.hasOwnProperty('description');",
+									"tests['Article has \"tagList\" property'] = article.hasOwnProperty('tagList');",
+									"tests['Article\\'s \"tagList\" property is an Array'] = Array.isArray(article.tagList);",
+									"tests['Article has \"author\" property'] = article.hasOwnProperty('author');",
+									"tests['Article has \"favorited\" property'] = article.hasOwnProperty('favorited');",
+									"tests['Article has \"favoritesCount\" property'] = article.hasOwnProperty('favoritesCount');",
+									"tests['favoritesCount is an integer'] = Number.isInteger(article.favoritesCount);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{apiUrl}}/reviews/4",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token2}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"rating\":{\"rating\":1, \"title\":\"New rating\", \"summary\":\"Some summary\", \"ip_address\":\"0.0.0.0\"}}\n\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var responseJSON = JSON.parse(responseBody);",
+									"",
+									"tests['Response contains \"article\" property'] = responseJSON.hasOwnProperty('article');",
+									"",
+									"var article = responseJSON.article || {};",
+									"",
+									"tests['Article has \"title\" property'] = article.hasOwnProperty('title');",
+									"tests['Article has \"slug\" property'] = article.hasOwnProperty('slug');",
+									"tests['Article has \"body\" property'] = article.hasOwnProperty('body');",
+									"tests['Article has \"createdAt\" property'] = article.hasOwnProperty('createdAt');",
+									"tests['Article\\'s \"createdAt\" property is an ISO 8601 timestamp'] = new Date(article.createdAt).toISOString() === article.createdAt;",
+									"tests['Article has \"updatedAt\" property'] = article.hasOwnProperty('updatedAt');",
+									"tests['Article\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = new Date(article.updatedAt).toISOString() === article.updatedAt;",
+									"tests['Article has \"description\" property'] = article.hasOwnProperty('description');",
+									"tests['Article has \"tagList\" property'] = article.hasOwnProperty('tagList');",
+									"tests['Article\\'s \"tagList\" property is an Array'] = Array.isArray(article.tagList);",
+									"tests['Article has \"author\" property'] = article.hasOwnProperty('author');",
+									"tests['Article has \"favorited\" property'] = article.hasOwnProperty('favorited');",
+									"tests['Article has \"favoritesCount\" property'] = article.hasOwnProperty('favoritesCount');",
+									"tests['favoritesCount is an integer'] = Number.isInteger(article.favoritesCount);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{apiUrl}}/reviews/5/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token2}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"rating\":5, \"title\":\"New rating updated\", \"summary\":\"Some summary\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Company Owner's Reviews",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var responseJSON = JSON.parse(responseBody);",
+									"",
+									"tests['Response contains \"article\" property'] = responseJSON.hasOwnProperty('article');",
+									"",
+									"var article = responseJSON.article || {};",
+									"",
+									"tests['Article has \"title\" property'] = article.hasOwnProperty('title');",
+									"tests['Article has \"slug\" property'] = article.hasOwnProperty('slug');",
+									"tests['Article has \"body\" property'] = article.hasOwnProperty('body');",
+									"tests['Article has \"createdAt\" property'] = article.hasOwnProperty('createdAt');",
+									"tests['Article\\'s \"createdAt\" property is an ISO 8601 timestamp'] = new Date(article.createdAt).toISOString() === article.createdAt;",
+									"tests['Article has \"updatedAt\" property'] = article.hasOwnProperty('updatedAt');",
+									"tests['Article\\'s \"updatedAt\" property is an ISO 8601 timestamp'] = new Date(article.updatedAt).toISOString() === article.updatedAt;",
+									"tests['Article has \"description\" property'] = article.hasOwnProperty('description');",
+									"tests['Article has \"tagList\" property'] = article.hasOwnProperty('tagList');",
+									"tests['Article\\'s \"tagList\" property is an Array'] = Array.isArray(article.tagList);",
+									"tests['Article has \"author\" property'] = article.hasOwnProperty('author');",
+									"tests['Article has \"favorited\" property'] = article.hasOwnProperty('favorited');",
+									"tests['Article has \"favoritesCount\" property'] = article.hasOwnProperty('favoritesCount');",
+									"tests['favoritesCount is an integer'] = Number.isInteger(article.favoritesCount);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{apiUrl}}/company/1/reviews/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{token2}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"review\":{\"rating\":3, \"title\":\"New rating\", \"summary\":\"Some summary\"}}"
 						},
 						"description": ""
 					},
@@ -426,25 +627,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							},
 							{
 								"key": "X-Requested-With",
-								"value": "XMLHttpRequest",
-								"description": ""
+								"value": "XMLHttpRequest"
 							},
 							{
 								"key": "Authorization",
-								"value": "Token {{token}}",
-								"description": ""
+								"value": "Token {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\":\"Fourth Company\", \"email\":\"fourth_company@gmail.com\", \"address\":\"Some address\"}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -487,25 +685,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							},
 							{
 								"key": "X-Requested-With",
-								"value": "XMLHttpRequest",
-								"description": ""
+								"value": "XMLHttpRequest"
 							},
 							{
 								"key": "Authorization",
-								"value": "Token {{token}}",
-								"description": ""
+								"value": "Token {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\":\"First Company\", \"email\":\"first_company_updated@gmail.com\", \"address\":\"Some address updated\"}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -548,25 +743,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							},
 							{
 								"key": "X-Requested-With",
-								"value": "XMLHttpRequest",
-								"description": ""
+								"value": "XMLHttpRequest"
 							},
 							{
 								"key": "Authorization",
-								"value": "Token {{token}}",
-								"description": ""
+								"value": "Token {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\":\"Third Company\", \"email\":\"third_company@gmail.com\", \"address\":\"Some address\"}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -609,25 +801,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							},
 							{
 								"key": "X-Requested-With",
-								"value": "XMLHttpRequest",
-								"description": ""
+								"value": "XMLHttpRequest"
 							},
 							{
 								"key": "Authorization",
-								"value": "Token {{token}}",
-								"description": ""
+								"value": "Token {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\":\"Third Company\", \"email\":\"third_company@gmail.com\", \"address\":\"Some address\"}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				},
@@ -670,25 +859,22 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json",
-								"description": ""
+								"value": "application/json"
 							},
 							{
 								"key": "X-Requested-With",
-								"value": "XMLHttpRequest",
-								"description": ""
+								"value": "XMLHttpRequest"
 							},
 							{
 								"key": "Authorization",
-								"value": "Token {{token}}",
-								"description": ""
+								"value": "Token {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\":\"Third Company\", \"email\":\"third_company@gmail.com\", \"address\":\"Some address\"}"
 						},
-						"description": ""
+						"description": null
 					},
 					"response": []
 				}

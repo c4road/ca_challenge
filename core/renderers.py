@@ -11,6 +11,10 @@ class AppJSONRenderer(JSONRenderer):
 
 	def render(self, data, media_type=None, renderer_context=None):
 
+		if data is None:
+			
+			return ''
+
 		if isinstance(data, ReturnList):
 			_data = json.loads(
 				super(AppJSONRenderer, self).render(data).decode('utf-8')

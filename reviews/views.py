@@ -13,12 +13,27 @@ from companies.models import Company
 
 # Create your views here.
 
-class CompanyReviewCreateAPIView(generics.CreateAPIView):
- 
+class CompanyReviewCreateAPIView(generics.ListCreateAPIView):
+	
+	lookup_field = 'company'
 	lookup_url_kwarg = 'company_id'
+	queryset = Review.objects.all()
 	permission_classes = (IsAuthenticated,)
 	renderer_classes = (ReviewJSONRenderer,)
 	serializer_class = ReviewSerializer
+
+
+	def filter_queryset(self, queryset):
+		# The built-in list function calls `filter_queryset`. Since we only
+		# want comments for a specific article, this is a good place to do
+		# that filtering.
+
+		filters = {
+			self.lookup_field: self.kwargs[self.lookup_url_kwarg],
+			"reviewer":self.request.user.id
+		}
+
+		return queryset.filter(**filters)
 
 
 	def create(self, request, company_id=None):
@@ -74,7 +89,7 @@ class ReviewAdminAPIView(generics.ListAPIView):
 
 
 
-class ReviewRetrieveAPIView(generics.RetrieveAPIView):
+class ReviewRetrieveAPIView(generics.RetrieveUpdateDestroyAPIView):
 
     lookup_field = 'id'
     lookup_url_kwarg = 'review_id'

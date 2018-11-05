@@ -33,6 +33,6 @@ class Review(TimestampedModel):
 
 	def __str__(self):
 
-		return "{} {}".format(self.title,self.createdAt.strftime('%d-%m-%Y'))
+		return "{} {}".format(self.title,self.created_at.strftime('%d-%m-%Y'))
 
 
