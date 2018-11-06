@@ -26,14 +26,6 @@ cd src
 pip install -r requirements.txt
 ```
 
-To install this project you can use `pip` or download individually which library from PyPI.
-
-Using `pip`, you can run the following commands for each environment you want.
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Setting Up
 
 The environment is using SQLite by default, to make easier to run and test the project. 
