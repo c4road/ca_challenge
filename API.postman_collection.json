@@ -147,7 +147,7 @@
 						}
 					],
 					"request": {
-						"url": "{{apiUrl}}/company/1/reviews/",
+						"url": "{{apiUrl}}/reviews/company/1/",
 						"method": "POST",
 						"header": [
 							{

@@ -42,7 +42,7 @@ The environment is using SQLite by default, to make easier to run and test the p
 After setup the DB, you need to run the following commands to have the data scheme right.
 
 ```bash
-python manage.py makemigrations authentication ratings companies
+python manage.py makemigrations authentication reviews companies
 python manage.py migrate
 python manage.py createsuperuser
 ```
@@ -88,7 +88,7 @@ python manage.py test
 To run all the tests, you run the following commands:
 
 ```bash
-coverage run --source='api' manage.py test
+coverage run --source='authentication','companies','reviews' manage.py test
 coverage report
 ```
 
@@ -113,4 +113,4 @@ coverage report
 
 ## API documentation
 
-To take a look at the api endpoints you have to import the API.postman_collection.json using Postman, also you can visit http://localhost:8000/swagger/ and http://localhost:8000/docs/ for further information.
+To take a look at the api endpoints I recommend using Postman. You have to import the API.postman_collection.json and API.postman_environment.json, also you can visit http://localhost:8000/swagger/, http://localhost:8000/redoc/, and http://localhost:8000/docs/ for further information.
