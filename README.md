@@ -15,16 +15,15 @@ You can see the other requirements inside the requirements files.
 
 First you need to activate the environment.
 
-On windows:
+On Linux:
 ```bash
-virtualenv env
-env\Scripts\activate
-```
-
-On linux:
-```bash
-virtualenv env
-source env/bin/activate
+virtualenv -p python3 ca_challenge
+cd ca_challenge
+git clone https://github.com/Ballanxe/ca_challenge.git
+mv ca_challenge src 
+source bin/activate
+cd src 
+pip install -r requirements.txt
 ```
 
 To install this project you can use `pip` or download individually which library from PyPI.
@@ -55,9 +54,9 @@ and password.
 To load some data into the database you must run the following commands. Being located in the root of the project
 
 ```bash
-python manage.py loaddata companies.json
-python manage.py loaddata reviewers.json
-python manage.py loaddata reviews.json
+python manage.py loaddata reviewers_data.json
+python manage.py loaddata companies_data.json
+python manage.py loaddata reviews_data.json
 ```
 
 ## Running
